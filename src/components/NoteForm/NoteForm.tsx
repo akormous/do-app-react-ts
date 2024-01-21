@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Note } from "../../types/Note";
 
 export interface NoteFormProps {
@@ -8,10 +8,12 @@ export interface NoteFormProps {
 export function NoteForm({ addNotesToList } : NoteFormProps) {
     const [title, setTitle] = useState<string>("");
     const [content, setContent] = useState<string>("");
+    const idCounter = useRef<number>(0);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        addNotesToList({ id: 1, title: title, content: content });
+        idCounter.current = idCounter.current + 1;
+        addNotesToList({ id: idCounter.current, title: title, content: content });
     }
 
     return (
